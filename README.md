@@ -1,5 +1,7 @@
 # JavaScript Rascal
 
+Use template!
+
 ## Objectives
 
 - Practice Read and Write skills
@@ -29,4 +31,3 @@ To help guide you, the company's security team had made a list of things they ha
 5. Why is Robert, our lowest performer, getting a bonus of `660000`?
     - How are the bonuses calculated? What do they depend on?
 
-Make sure to fork or download this repo so that you have your own instance of the code. Make the corrections, then upload them to your own repo.
