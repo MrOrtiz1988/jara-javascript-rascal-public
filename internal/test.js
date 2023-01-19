@@ -74,26 +74,26 @@ $(document).ready(() => {
 
     // Check values
     let isComplete = (
-        // 4 products in the table
-        $('tr').length === 4 &&
+        // 4 products in the table (plus header row)
+        $('tr').length === 5 &&
 
         // Reviews are correct
-        $('tr:eq(0) td:eq(4)').text() === '1.8' &&
-        $('tr:eq(1) td:eq(4)').text() === '5' &&
-        $('tr:eq(2) td:eq(4)').text() === '4.6' &&
-        $('tr:eq(3) td:eq(4)').text() === '4.2' &&
+        $('tr:eq(1) td:eq(4)').text() === '1.8' &&
+        $('tr:eq(2) td:eq(4)').text() === '5' &&
+        $('tr:eq(3) td:eq(4)').text() === '4.6' &&
+        $('tr:eq(4) td:eq(4)').text() === '2.3' &&
 
         // Discounts are correct
-        $('tr:eq(0) td:eq(5)').text() === '$8.75' &&
-        $('tr:eq(1) td:eq(5)').text() === '$0.00' &&
-        $('tr:eq(2) td:eq(5)').text() === '$8.25' &&
-        $('tr:eq(3) td:eq(5)').text() === '$1.80'
+        $('tr:eq(1) td:eq(5)').text() === '$8.75' &&
+        $('tr:eq(2) td:eq(5)').text() === '$0.00' &&
+        $('tr:eq(3) td:eq(5)').text() === '$5.94' &&
+        $('tr:eq(4) td:eq(5)').text() === '$2.25'
     );
 
     if (!isComplete) {
         $('.alert').addClass('alert-warning').text('🤔 Hmmm.... something is not quite right.');
     }
     else {
-        $('.alert').addClass('alert-success').text('🎉 You did it!')
+        $('.alert').addClass('alert-success').text('🎉 You did it!');
     }
 });
