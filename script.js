@@ -48,9 +48,8 @@ const products = [
 	}
 ];
 
-$(document).ready(onReady);
 
-function onReady() {
+function start() {
 	// Run the function to calculate product discounts
 	calculateProductDiscounts(products);
 }
