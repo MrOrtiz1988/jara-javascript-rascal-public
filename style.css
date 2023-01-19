@@ -22,3 +22,10 @@ td:nth-child(2) {
     font-size: 18px;
     background: #dbdddd;
 }
+
+.container .alert {
+    margin-top: 25px;
+    display: inline-block;
+    font-weight: bold;
+    padding: 15px 25px;
+}
