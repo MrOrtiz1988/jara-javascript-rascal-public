@@ -59,7 +59,7 @@ function start() {
 function calculateProductDiscounts(arrayOfProducts) {
 	// Loop through the array of products
 	for (let i = 0; i < arrayOfProducts.length; i++) {
-		// Get a single product object
+		// "i" just can't find a single product...
 		const product = arrayOfProducts;
 
 		// Calculate the discount for this one product object
@@ -93,7 +93,7 @@ function calculateDiscount(product) {
 	}
 
 	// Convert the percentage to an actual dollar amount
-	let discountAmount = product.price * discount;
+	let discountAmount = product.price * percent;
 
 	return discountAmount;
 }
@@ -101,6 +101,8 @@ function calculateDiscount(product) {
 // We'll give a bigger discount for lower rated products
 function getReviewDiscount(product) {
 	let discount;
+
+	// 1, 2, or 3, you can't catch me!
 	if (product.reviews.avgRating = 5) {
 		// perfect rating 🏆, no discount
 		discount = 0;
@@ -123,6 +125,8 @@ function getReviewDiscount(product) {
 	if (product.reviews.count < 100) {
 		discount += 0.10;
 	}
+
+	// no discount for you!
 }
 
 // Old products get an extra 10% discount
