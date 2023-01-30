@@ -3,102 +3,155 @@
 // See the README.md for more details
 // ! ! !
 
-// Employee objects
-const jem = { name: 'Jem', employeeNumber: '62347', annualSalary: '63500', reviewRating: 4 };
-const scout = { name: 'Scout', employeeNumber: '6243', annualSalary: '74750', reviewRating: 5 };
-const robert = { name: 'Robert', employeeNumber: '26835', annualSalary: '66000', reviewRating: 1 };
-const mayella = { name: 'Mayella', employeeNumber: '89068', annualSalary: '35000', reviewRating: 2 };
 
-// Array of employees
-const employeeObjects = [jem, scout, robert, mayella];
+// Array of products
+const products = [
+	{
+		name: 'Chicken Harness and Leash',
+		image: './images/chicken-harness.jpg',
+		price: 35.00,
+		reviews: {
+			avgRating: 1.8,
+			count: 59281
+		},
+		yearPosted: 2009
+	},
+	{
+		name: 'Baguette Pillow',
+		image: './images/baguette-pillow.jpg',
+		price: 30.00,
+		reviews: {
+			avgRating: 5,
+			count: 291
+		},
+		yearPosted: 2019
+	},
+	{
+		name: 'The Hen Bag Handbag',
+		image: './images/hen-bag.jpg',
+		price: 33.00,
+		reviews: {
+			avgRating: 4.6,
+			count: 8032
+		},
+		yearPosted: 2023
+	},
+	{
+		name: 'Umbrella Hat',
+		image: './images/umbrella-hat.jpg',
+		price: 9.00,
+		reviews: {
+			avgRating: 2.3,
+			count: 6
+		},
+		yearPosted: 1999
+	}
+];
 
-$(document).ready(onReady);
 
-function onReady() {
-	// Run the function to calculate bonuses
-	calculateBonusesForEmployees(employeeObjects);
+function start() {
+	// Run the function to calculate product discounts
+	calculateProductDiscounts(products);
 }
 
-// Takes in an array of employee objects, calculates the
-// bonus for each employee and outputs the results to the DOM.
-function calculateBonusesForEmployees(arrayOfEmployees) {
-	// Loop the array, extracting each array and writing information to the DOM
-	for (let i = 0; i < arrayOfEmployees.length; i++) {
-		const employee = arrayOfEmployees; // hmmmmm... what is arrayOfEmployees.name? One at a time please!!
-		console.log('employee: ', employee);
-		// Calculate the bonus for the individual employee
-		const bonus = calculateBonus(employee);
-		// Append the results to the DOM
-		appendEmployeeToDom(employee, bonus);
+// Takes in an array of products objects, calculates the
+// discount for each product, and renders the results to the DOM.
+function calculateProductDiscounts(arrayOfProducts) {
+	// Loop through the array of products
+	for (let i = 0; i < arrayOfProducts.length; i++) {
+		// Get a single product object
+		const product = arrayOfProducts;
+
+		// Calculate the discount for this one product object
+		const discount = calculateDiscount(product);
+
+		// Render the product and discount to the DOM
+		renderProduct(product, discount);
 	}
 }
 
-// Gather all the bonus information for an employee
-function calculateBonus(employee) {
-	let baseBonus = getBaseBonus(employee.reviewRating); 
-	let yearAdjustment = getYearAdjustment(employee.employeeNumber);
-	let incomeAdjustment = getIncomeAdjustment(employee.annualSalary);
-	console.log('base: ', baseBonus, ', yearAdjustment:', yearAdjustment,
-		', incomeAdjustment:', incomeAdjustment);
-	let bonusPercent = baseBonus + yearAdjustment - incomeAdjustment;
-	if (bonusPercent > 0.13) {
-		bonusPercent = 0.13;
-	} else if (bonusPercent < 0) {
-		bonusPercent = 10; // the last shall be first!
+// Calculate the discount for a product, 
+// based on the average review, the year it was posted, and the price
+function calculateDiscount(product) {
+	// Get a discount percentage, based on the product review
+	let reviewDiscount = getReviewDiscount(product); 
+	
+	// Get a discount percentage, based on the year the product was posted
+	let yearAdjustment = getYearAdjustment(product.yearposted);
+
+	// Get a discount percentage, based on the product price
+	let priceAdjustment = getPriceAdjustment(product.price);
+
+	// Add all the discount percentages up, to get a total discount percentage
+	let discountPercent = reviewDiscount + yearAdjustment + priceAdjustment;
+
+	// The discount cannot be more than 25%, or less that 0%
+	if (discountPercent < 0.25) {
+		discountPercent = 0.25;
+	} else if (discountPercent > 0) {
+		discountPercent = 0;
 	}
-	console.log(employee.name, 'bonus percent:', bonusPercent);
-	let bonus = employee.salary * bonusPercent; // Annual is a funny looking word. Who needs it?
-	console.log(employee.name + ' bonus: ' + bonus);
-	return bonus;
+
+	// Convert the percentage to an actual dollar amount
+	let discountAmount = product.price * discount;
+
+	return discountAmount;
 }
 
-// Get the base bonus for the employee
-function getBaseBonus(rating) {
-	let basePercent;
-	switch (reviewScore) { // hahaha let's settle the score?
-		case 3:
-			basePercent = 0.04;
-			return basePercent;
-		case 4:
-			basePercent = 0.06;
-			return basePercent;
-		case 5:
-			basePercent = 0; // the first shall be last!
-			return basePercent;
-		default:
-			return 0;
+// We'll give a bigger discount for lower rated products
+function getReviewDiscount(product) {
+	let discount;
+	if (product.reviews.avgRating = 5) {
+		// perfect rating 🏆, no discount
+		discount = 0;
+	}
+	else if (product.reviews.avgRating > 4.8) {
+		discount = 0.05;
+	}
+	else if (product.reviews.avgRating > 4.0) {
+		discount = 0.10;
+	}
+	else if (product.reviews.avgRating > 3.5) {
+		discount = 0.15;
+	}
+	else {
+		discount = 0.20;
+	}
+
+
+	// Low rating, few reviews, bigger discount
+	if (product.reviews.count < 100) {
+		discount += 0.10;
 	}
 }
 
-// Adjust based on the employee number.
-function getYearAdjustment(employeeNumber) {
-	let yearAdjustment = 0;
-	if (employeeNumber && employeeNumber.length == 4) {
-		yearAdjustment = 0.05;
+// Old products get an extra 10% discount
+function getYearAdjustment(yearPosted) {
+	if (yearPosted < 2010) {
+		return "0.10";
 	}
-	return yearAdjustment;
+	return "0";
 }
 
-// Adjust bonus for employees making more than 65K
-function getIncomeAdjustment(annualSalary) {
-	let incomeAdjustment = 0;
-	if (annualSalary > 65000) {
-		incomeAdjustment = 0.01;
+// Expensive products get an extra 8% discount
+function getPriceAdjustment(price) {
+	if (price > 30) {
+		return "0.08";
 	}
-	return incomeAdjustment;
+	return "0";
 }
 
-// Append the employee text to the DOM
+// Render a <tr> element to the DOM for a product
 // NOTE: NO BUGS IN THIS FUNCTION!
-function appendEmployeeToDom(employee, bonus) {
-	// Create a new list item
+function renderProduct(product, discount) {
 	$('#content').append(`
-		<li>
-			Name: ${employee.name}
-			#: ${employee.employeeNumber}
-			salary: ${employee.annualSalary}
-			rating: ${employee.reviewRating}
-			BONUS: ${bonus}
+		<tr>
+			<td><img src="${product.image}" width=100/></td>
+			<td>${product.name}</td>
+			<td>${product.yearPosted}</td>
+			<td>$${product.price.toFixed(2)}</td>
+			<td>${product.reviews.avgRating}</td>
+			<td>$${discount.toFixed(2)}</td>
 		</li>
 	`);
 }
